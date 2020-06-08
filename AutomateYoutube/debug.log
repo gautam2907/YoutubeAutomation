@@ -1,0 +1,16 @@
+[0527/021812.930:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0527/021812.932:ERROR:exception_snapshot_win.cc(98)] thread ID 17112 not found in process
+[0527/021812.971:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0527/021812.971:ERROR:exception_snapshot_win.cc(98)] thread ID 2184 not found in process
+[0527/021813.071:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0527/021813.073:ERROR:exception_snapshot_win.cc(98)] thread ID 11972 not found in process
+[0527/021813.113:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0527/021813.113:ERROR:exception_snapshot_win.cc(98)] thread ID 11964 not found in process
+[0527/021813.114:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
+[0527/034305.944:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0527/034305.947:ERROR:exception_snapshot_win.cc(98)] thread ID 24676 not found in process
+[0527/034306.035:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0527/034306.036:ERROR:exception_snapshot_win.cc(98)] thread ID 2380 not found in process
+[0527/034306.059:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0527/034306.059:ERROR:exception_snapshot_win.cc(98)] thread ID 24948 not found in process
+[0527/034306.060:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
