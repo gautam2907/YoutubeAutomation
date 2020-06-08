@@ -38,7 +38,7 @@ let channelName;
         await tab.waitForSelector("paper-button.style-scope.ytd-button-renderer.style-suggestive.size-small");
         await navigationHelper(tab, "paper-button.style-scope.ytd-button-renderer.style-suggestive.size-small");
 
-        //Login into Google Account
+        //**********Login into Google Account***************
         await tab.waitForSelector("input[type='email']");
         await tab.type("input[type='email']", email);
 
@@ -51,7 +51,7 @@ let channelName;
         await tab.waitForSelector("div#passwordNext");
         await navigationHelper(tab, "div#passwordNext");
 
-        //search for the channel name
+        //**********search for the channel name**********
         await tab.waitForSelector("input#search");
         await tab.type("input#search", searchChannelName);
 
@@ -60,12 +60,12 @@ let channelName;
 
         await tab.waitForSelector("a#main-link");
 
-        //retrieve the full channel name 
+        //****************retrieve the full channel name********************
         let channelNameBox = await tab.$("a#main-link #text");
         channelName = await tab.evaluate(element => element.textContent, channelNameBox);
         await navigationHelper(tab, "a#main-link");
 
-
+        /*Go to Video Section of page */
         await tab.waitForSelector("#tabsContent .style-scope.ytd-c4-tabbed-header-renderer .tab-content.style-scope.paper-tab");
         let tabsList = await tab.$$("#tabsContent .style-scope.ytd-c4-tabbed-header-renderer .tab-content.style-scope.paper-tab");
 
@@ -98,13 +98,17 @@ let channelName;
 })()
 
 async function likeAllVideos(tab, browser){
+    
     await tab.waitForSelector("ytd-browse #primary #contents a#video-title");
     await delay(4000);
+
+    /**************Select the videos *************/
     let allVideos = await tab.$$("ytd-browse #primary #contents a#video-title");
     let allVideoLiked = [];
     let noOfTimes10TabOpen = Math.ceil(noOfVideosToBeLiked/10);
     let count = 0;
     while(noOfTimes10TabOpen>0){
+        /***********each video call************/ 
         for(let i = 0; count<noOfVideosToBeLiked && i<10 ; i++){
             // console.log(`video${i}`);
             let eachvideoLink = await tab.evaluate(function (elem){
@@ -114,12 +118,11 @@ async function likeAllVideos(tab, browser){
             if(count==0){
                 latestVideoLink = eachVideoFullLink;
             }
+            /************opens new tab for each video***********/
             let newTab = await browser.newPage();
             let currentVideoLiked = likeOneVideo(newTab, eachVideoFullLink, count);
             allVideoLiked.push(currentVideoLiked);
-             // await tab.goto(videosPageUrl, {
-            //     waitUntil : "networkidle2"
-            // })
+            
             count++;
         }
         await Promise.all(allVideoLiked);
@@ -153,23 +156,26 @@ async function likeOneVideo(newtab, eachvideoLink, idx){
         if(ariaPressed == "false"){
             await likeDislikeButtons[0].click();
         } else {
-            // await newtab.waitForSelector("#container #top-row");
-            // await newtab.click("#container #top-row");
+            await newtab.waitForSelector("#container #top-row");
+            await newtab.click("#container #top-row");
         }
         
+        /************Get Video Title ***********/
         await newtab.waitForSelector("h1 yt-formatted-string.style-scope.ytd-video-primary-info-renderer");
         let titleElement = await newtab.$("h1 yt-formatted-string.style-scope.ytd-video-primary-info-renderer");
         let videoName = await newtab.evaluate(element => element.textContent, titleElement);
         // console.log(videoName);
+
+        /******Get No of View *************/
         await newtab.waitForSelector(".view-count.style-scope.yt-view-count-renderer");
         let noOfViewsElement = await newtab.$(".view-count.style-scope.yt-view-count-renderer");
-        
-        let noOfViewsF = await newtab.evaluate(function(elem){
+        let noOfViewsFullString = await newtab.evaluate(function(elem){
             return elem.textContent;
         }, noOfViewsElement);
-        let noOfViews = noOfViewsF.split(" ")[0];
+        let noOfViews = noOfViewsFullString.split(" ")[0];
         // console.log(noOfViews);
 
+        /*********Get The Hashtags Used in the video **************/
         let hashtagsUsed = [];
         try{
             await newtab.waitForSelector(".super-title.style-scope.ytd-video-primary-info-renderer .yt-simple-endpoint.style-scope.yt-formatted-string", {
@@ -186,28 +192,32 @@ async function likeOneVideo(newtab, eachvideoLink, idx){
         //console.log(hashtagsUsed);
         
     
-
+        /***************No of likes**********/
         await newtab.waitForSelector("#text.style-scope.ytd-toggle-button-renderer");
         let noOfLikeDislikeElements = await newtab.$$("#text.style-scope.ytd-toggle-button-renderer");
         let noOfLikesF = await newtab.evaluate(element => element.getAttribute("aria-label"), noOfLikeDislikeElements[0]);
         let noOfLikes = noOfLikesF.split(" ")[0];
         // console.log("no Of Likes "  + noOfLikes);
+
+        /***********No of Dislikes ********************/
         let noOfDislikesF = await newtab.evaluate(element => element.getAttribute("aria-label"), noOfLikeDislikeElements[1]);
         let noOfDislikes = noOfDislikesF.split(" ")[0];
         // console.log("no Of DisLikes "  + noOfDislikes);
 
+        /*********Upload Date **************/
         await newtab.waitForSelector("#date yt-formatted-string");
         let dateUploadedElement = await newtab.$("#date yt-formatted-string");
         let dateUploaded = await newtab.evaluate(element => element.textContent, dateUploadedElement);
 
+    
         await newtab.waitForSelector("#columns #comments");
         await newtab.click("#columns #comments");
+        /***********No of Comments ************/
         await newtab.waitForSelector("#columns #comments .count-text.style-scope.ytd-comments-header-renderer");
         let noOfCommentsElement = await newtab.$("#comments .count-text.style-scope.ytd-comments-header-renderer");
         let noOfCommentsF = await newtab.evaluate(element => element.textContent, noOfCommentsElement);
         let noOfComments = noOfCommentsF.split(" ")[0];
         // console.log(noOfComments);
-
 
         let videoObject = {
             index : idx+1,
